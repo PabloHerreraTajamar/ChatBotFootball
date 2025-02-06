@@ -28,7 +28,7 @@ def home(request):
             return redirect('home')
 
         user_question = request.POST.get('question', '').strip()
-
+        
         if user_question:
             try:
                 response = ai_client.get_answers(
