@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot de Fútbol</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h2>Chatbot de Fútbol</h2>
+            <form method="POST" class="reset-form">
+                {% csrf_token %}
+                <button type="submit" name="reset">Resetear Chat</button>
+            </form>
+        </div>
+
+        <div class="history-box" id="chat-box">
+            {% if history %}
+                {% for entry in history %}
+                    <div class="message user-message">
+                        <p><strong>You:</strong> {{ entry.question }}</p>
+                    </div>
+                    <div class="message bot-message">
+                        <p><strong>Chat Bot: </strong> {{ entry.answer }}</p>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <form method="POST" class="chat-input">
+            {% csrf_token %}
+            <input type="text" name="question" id="user-input" placeholder="Escribe tu mensaje..." required autofocus>
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+
+    <script>
+        // Scroll automático al último mensaje
+        const chatBox = document.getElementById('chat-box');
+        chatBox.scrollTop = chatBox.scrollHeight;
+    </script>
+</body>
+</html>
