@@ -2,7 +2,9 @@
 from dotenv import load_dotenv
 import os
  
-load_dotenv()
+dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
+load_dotenv(dotenv_path)
+
 AI_ENDPOINT = str(os.getenv('AI_SERVICE_ENDPOINT'))
 AI_KEY = str(os.getenv('AI_SERVICE_KEY'))
 AI_PROJECT_NAME = os.getenv('QA_PROJECT_NAME')
