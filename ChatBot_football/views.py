@@ -42,4 +42,8 @@ def home(request):
 
     return render(request, 'ChatBot_football/index.html', {
         'history': history,
+        'api': AI_KEY,
+        'endpoint' : AI_ENDPOINT,
+        'project_name': AI_PROJECT_NAME,
+        'deployment_name': AI_DEPLOYMENT_NAME
     })

@@ -1,6 +1,6 @@
-
 from dotenv import load_dotenv
 import os
+from pathlib import Path
  
 dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
 load_dotenv(dotenv_path)
@@ -10,8 +10,6 @@ AI_KEY = str(os.getenv('AI_SERVICE_KEY'))
 AI_PROJECT_NAME = os.getenv('QA_PROJECT_NAME')
 AI_DEPLOYMENT_NAME = os.getenv('QA_DEPLOYMENT_NAME')
 
-
-from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +24,7 @@ SECRET_KEY = 'django-insecure-*zg6fzybl8x*@yffdqxdata4#y$1uh8n@hf3=l2uwo*0+onsqk
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
