@@ -5,21 +5,15 @@ from django.http import JsonResponse
 from azure.core.credentials import AzureKeyCredential
 from azure.ai.language.questionanswering import QuestionAnsweringClient
 from django.views.decorators.csrf import csrf_protect
+from ChatBotfootball.settings import *
 
-load_dotenv()
-
-ai_endpoint = os.getenv('AI_SERVICE_ENDPOINT')
-ai_key = os.getenv('AI_SERVICE_KEY')
-ai_project_name = os.getenv('QA_PROJECT_NAME')
-ai_deployment_name = os.getenv('QA_DEPLOYMENT_NAME')
-
-credential = AzureKeyCredential(ai_key)
-ai_client = QuestionAnsweringClient(endpoint=ai_endpoint, credential=credential)
 
 history = []
 
 @csrf_protect
 def home(request):
+    credential = AzureKeyCredential(AI_KEY)
+    ai_client = QuestionAnsweringClient(endpoint=AI_ENDPOINT, credential=credential)
     global history
 
     if request.method == 'POST':
@@ -33,8 +27,8 @@ def home(request):
             try:
                 response = ai_client.get_answers(
                     question=user_question,
-                    project_name=ai_project_name,
-                    deployment_name=ai_deployment_name
+                    project_name=AI_PROJECT_NAME,
+                    deployment_name=AI_DEPLOYMENT_NAME
                 )
 
                 if response.answers:
