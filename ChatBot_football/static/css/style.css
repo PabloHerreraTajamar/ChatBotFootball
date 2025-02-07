@@ -22,7 +22,7 @@ body {
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    height: 80vh;
+    height: 90vh; /* Aumentamos la altura del contenedor principal */
     overflow: hidden;
     position: relative;
 }
@@ -59,11 +59,12 @@ body {
 .history-box {
     padding: 20px;
     flex-grow: 1;
-    overflow-y: auto;
+    overflow-y: auto; /* Permite el desplazamiento vertical */
     background-color: #f9f9f9;
     display: flex;
     flex-direction: column;
-    max-height: 590px;
+    max-height: calc(100% - 120px); /* Ajustamos el espacio para la barra de entrada */
+    margin-bottom: 60px; /* Margen inferior para evitar solapamiento */
 }
 
 .message {
@@ -128,7 +129,7 @@ button:hover {
 @media (max-width: 600px) {
     .chat-container {
         width: 100%;
-        height: 100vh;
+        height: 100vh; /* En móviles, ocupa toda la pantalla */
         border-radius: 0;
     }
 

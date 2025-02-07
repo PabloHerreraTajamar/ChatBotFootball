@@ -11,7 +11,7 @@
     <div class="chat-container">
         <div class="chat-header">
             <h2>Chatbot de Fútbol</h2>
-            <form method="POST" class="reset-form">
+            <form method="POST" class="reset-form" id="reset-form">
                 {% csrf_token %}
                 <button type="submit" name="reset">Resetear Chat</button>
             </form>
@@ -30,16 +30,67 @@
             {% endif %}
         </div>
 
-        <form method="POST" class="chat-input">
+        <form method="POST" id="chat-form" class="chat-input">
             {% csrf_token %}
             <input type="text" name="question" id="user-input" placeholder="Escribe tu mensaje..." required autofocus>
             <button type="submit">Enviar</button>
         </form>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        // Scroll automático al último mensaje
-        const chatBox = document.getElementById('chat-box');
-        chatBox.scrollTop = chatBox.scrollHeight;
+        $(document).ready(function() {
+            // Enviar la pregunta al servidor sin recargar la página
+            $('#chat-form').submit(function(e) {
+                e.preventDefault();  // Evitar que el formulario se envíe tradicionalmente
+
+                let userInput = $('#user-input').val();
+
+                // Verificar que la entrada no esté vacía
+                if (userInput.trim() === '') return;
+
+                // Realizar la solicitud AJAX
+                $.ajax({
+                    type: 'POST',
+                    url: '',  // Se enviará al mismo URL
+                    data: {
+                        'question': userInput,
+                        'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
+                    },
+                    success: function(response) {
+                        // Mostrar la nueva pregunta y respuesta en el chat
+                        let chatBox = $('#chat-box');
+                        chatBox.append(
+                            `<div class="message user-message"><p><strong>You:</strong> ${response.question}</p></div>` +
+                            `<div class="message bot-message"><p><strong>Chat Bot: </strong> ${response.answer}</p></div>`
+                        );
+
+                        // Desplazar el chat hacia abajo automáticamente
+                        chatBox.scrollTop(chatBox[0].scrollHeight);
+
+                        // Limpiar el campo de entrada
+                        $('#user-input').val('');
+                    }
+                });
+            });
+
+            // Resetear el chat cuando se haga clic en el botón "Resetear"
+            $('#reset-form').submit(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: '',  // Enviar la solicitud para resetear
+                    data: {
+                        'reset': 'true',
+                        'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
+                    },
+                    success: function(response) {
+                        // Limpiar el historial en el frontend
+                        $('#chat-box').empty();
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>
