@@ -5,11 +5,12 @@ from django.http import JsonResponse
 from azure.core.credentials import AzureKeyCredential
 from azure.ai.language.questionanswering import QuestionAnsweringClient
 from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.cache import never_cache
 from ChatBotfootball.settings import *
 
 history = []
 
-@csrf_protect
+@never_cache
 def home(request):
     credential = AzureKeyCredential(AI_KEY)
     ai_client = QuestionAnsweringClient(endpoint=AI_ENDPOINT, credential=credential)
